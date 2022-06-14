@@ -7,7 +7,7 @@ ke=2
 def mondai(ka):
     ka=10
     for i in range(10):
-        mozi_list+=list(randint(65,90))
+        mozi_list+=list(chr(randint(65,90)))
     for i in range(ka):
         kazu=randint(0,len("abcdefghijklmnopqrstuvwyz")-1)
         tai.append(mozi_list[kazu])
