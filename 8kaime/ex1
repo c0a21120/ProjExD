@@ -6,12 +6,10 @@ ke=2
 
 def mondai(ka):
     ka=10
-    mozi_list=list("abcdefghijklmnopqrstuvwyz")
     for i in range(ka):
-        kazu=randint(0,len("abcdefghijklmnopqrstuvwyz")-1)
-        tai.append(mozi_list[kazu])
+
+        tai.append(chr(randint(65,90)))
     print(f"{tai}")
-    print("doeo")
 
     return tai
 
