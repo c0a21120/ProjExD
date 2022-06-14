@@ -1,11 +1,13 @@
 import datetime
 from random import randint 
+
 tai=[]
 ke=2
 
 def mondai(ka):
     ka=10
-    mozi_list=list("abcdefghijklmnopqrstuvwyz")
+    for i in range(10):
+        mozi_list+=list(randint(65,90))
     for i in range(ka):
         kazu=randint(0,len("abcdefghijklmnopqrstuvwyz")-1)
         tai.append(mozi_list[kazu])
@@ -29,7 +31,7 @@ def mondaibun(mozi):
         print(f"{kosuu}")
 """
     for mozis in mozi:
-        print(i)
+        print(mozis)
 
     print("欠損文字")
     kesu1=mondai_list.pop(randint(0,nan))
@@ -45,14 +47,10 @@ def mondaibun(mozi):
     ke=2
     if ans==ke:
         print("正解です。それでは、具体的に欠損文字を1つずつ入力してください")
-        ans1=input("一つ目：")
-        ans2=input("二つ目：")
-        if ans1==kesu1 and ans2==kesu2:
+        for i in range(ke)
+        ans1=input(f"{i}つ目：")
+        if ans1==kesu1
             print("正解です")
-        elif ans1==kesu1 and ans2!=kesu2:
-            print("二文字目違う")
-        elif ans1!=kesu1 and ans2!=kesu2:
-            print("一文字目違う")
         else:
             print("すべて違います")
      
