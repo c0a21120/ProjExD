@@ -46,16 +46,10 @@ def mondaibun(mozi):
     ke=2
     if ans==ke:
         print("正解です。それでは、具体的に欠損文字を1つずつ入力してください")
-        ans1=input("一つ目：")
-        ans2=input("二つ目：")
+        for i in range(ke):
+            ans1=input(f"{ke}つ目：")
         if ans1==kesu1 and ans2==kesu2:
             print("正解です")
-        elif ans1==kesu1 and ans2!=kesu2:
-            print("二文字目違う")
-        elif ans1!=kesu1 and ans2!=kesu2:
-            print("一文字目違う")
-        else:
-            print("すべて違います")
      
 a=input("文字数を入力してください")
 print("debug")
