@@ -1,3 +1,4 @@
+from gettext import bind_textdomain_codeset
 import tkinter as tk
 from  tkinter import messagebox as tkm
 
@@ -9,6 +10,18 @@ fonts2=("Times New Roman",40)
 
 num_list=[[1,0],[1,1],[1,2],[2,0],[2,1],[2,2],[3,0],[3,1],[3,2],[4,1]]
 count=9
+
+def equal(event):
+    entry_value=entry.get()
+    entry.delete(0,tk.END)
+    #print(entry_value)
+    ans=eval(entry_value)
+    #print(ans)
+    entry.insert(tk.END,ans)
+
+
+
+
 
 
 def button_click(event):
@@ -43,6 +56,13 @@ def button_click(event):
         btn.insert(tk.END,"=")
     elif info['row']==3 and info['column']==3:
         btn.insert(tk.END,"-")
+    elif info['row']==4 and info['column']==2:
+        btn.insert(tk.END,"C")
+        entry.delete(0,tk.END)
+    elif info['row']==0 and info['column']==3:
+        btn.insert(tk.END,"*")
+    elif info['row']==1 and info['column']==3:
+        btn.insert(tk.END,"/")
 
     #btn.insert(tk.END,count)
     #tkm.showinfo(txt,f"[{txt}]ボタンが押されました")
@@ -60,11 +80,22 @@ utton=tk.Button(calc,text="-",font=fonts,width=4,height=1)#-ボタン作成
 utton.grid(row=3,column=3)
 utton.bind("<1>",button_click)
 
-button=tk.Button(calc,text="=",font=fonts,width=4,height=1)#=ボタン作成
-button.grid(row=4,column=3)
+button=tk.Button(calc,text="×",font=fonts,width=4,height=1)#*ボタン作成
+button.grid(row=0,column=3)
+button.bind("<1>",button_click)
+
+button=tk.Button(calc,text="÷",font=fonts,width=4,height=1)#÷ボタン作成
+button.grid(row=1,column=3)
 button.bind("<1>",button_click)
 
 
+button=tk.Button(calc,text="=",font=fonts,width=4,height=1)#=ボタン作成
+button.grid(row=4,column=3)
+button.bind("<1>",equal)
+
+button=tk.Button(calc,text="C",font=fonts,width=4,height=1)#Cボタン作成
+button.grid(row=4,column=2)
+button.bind("<1>",button_click)
 
 
 for i in num_list:
@@ -73,5 +104,7 @@ for i in num_list:
     print(count)
     button.bind("<1>",button_click)
     count-=1
+
+
 
 calc.mainloop()
