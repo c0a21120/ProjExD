@@ -56,9 +56,9 @@ button=tk.Button(calc,text="+",font=fonts,width=4,height=1)#＋ボタン作成
 button.grid(row=2,column=3)
 button.bind("<1>",button_click)
 
-utton=tk.Button(calc,text="-",font=fonts,width=4,height=1)#-ボタン作成
-utton.grid(row=3,column=3)
-utton.bind("<1>",button_click)
+button=tk.Button(calc,text="-",font=fonts,width=4,height=1)#-ボタン作成
+button.grid(row=3,column=3)
+button.bind("<1>",button_click)
 
 button=tk.Button(calc,text="=",font=fonts,width=4,height=1)#=ボタン作成
 button.grid(row=4,column=0)
