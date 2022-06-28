@@ -40,7 +40,8 @@ def main_proc(): #こうかとんを移動をおこなう関数
 
 def koukaton():#こうかとんの画像を表示する関数
     global tori , cx , cy
-    tori_list=["ex03/fig/0.png","ex03/fig/1.png","ex03/fig/2.png","ex03/fig/3.png","ex03/fig/4.png","ex03/fig/5.png","ex03/fig/6.png","ex03/fig/7.png","ex03/fig/8.png","ex03/fig/9.png"]
+    tori_list=["ex03/fig/0.png","ex03/fig/1.png","ex03/fig/2.png","ex03/fig/3.png",
+    "ex03/fig/4.png","ex03/fig/5.png","ex03/fig/6.png","ex03/fig/7.png","ex03/fig/8.png","ex03/fig/9.png"]
     gazou=tori_list[randint(0,9)]
     tori=tk.PhotoImage(file=gazou)
     canvas.create_image(cx,cy,image=tori,tag="tori")
