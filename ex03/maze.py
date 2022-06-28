@@ -73,8 +73,13 @@ def finish():
             break
     canvas.create_rectangle(100,100,200,200,fill="Red")
     canvas.create_rectangle(tate*100,yoko*100,(tate*100)+100,(yoko*100)+100,fill="blue")
+    fin()
 
 
+def fin():
+    global tate ,yoko,mx,my
+    if mx==tate and my==yoko:
+        maze.after_cancel()
 
 if __name__ == "__main__":
 
