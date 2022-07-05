@@ -56,10 +56,7 @@ def main():
         pg.display.update()#画面更新
         clock = pg.time.Clock()
         clock.tick(1000)
-
-
-        
-
+    
 #こうかとんを矢印キーで動かす
         pressed_key=pg.key.get_pressed()
         if pressed_key[pg.K_LEFT]:#左キーが押されたとき
@@ -101,33 +98,23 @@ def main():
         if rect_tori.colliderect(bming_rect):
             a1,a2=game_over()
             screen.blit(a2,a1)
+            clock.wait(3000)  
 
             #pg.display.update()#画面更新
-            return
+            #return
 
 #爆弾２の処理
-        if rect_tori.colliderect(bming_rect):
-            screen.blit
-            #game_over()
-            #pg.display.update()#画面更新
-            return  
+        #if rect_tori.colliderect(bming_rect):
+#            screen.blit
+ #           #game_over()
+  #          #pg.display.update()#画面更新
+   #         return  
 
 
         yoko,tate=check_bound(bming2_rect,sc_rect)
         vx*=yoko
         vy*=tate
-    
-    
-
-
-
-
-
-            
-
-
-
-
+                    
 
 #キーを押したとき
         for event in pg.event.get():
@@ -152,9 +139,6 @@ def game_over():
     game_over=pg.image.load(a).convert_alpha()
     rect_go=game_over.get_rect()
     return rect_go,game_over
-
-
-
 
 if __name__ == "__main__":
     main()
