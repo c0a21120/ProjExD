@@ -1,6 +1,10 @@
+from logging import root
 import pygame as pg
 import sys
 import random
+import pygame.mixer
+import time
+import tkinter as tk
 
 #screenクラスを作成
 class Screen:
@@ -13,7 +17,6 @@ class Screen:
         
     def blit(self):
         self.sfc.blit(self.bgi_sfc, self.bgi_rct)
-
 
 
 #Birdクラスを作成
@@ -32,7 +35,7 @@ class Bird:
     def update(self, scr: Screen):
         key_states = pg.key.get_pressed() # 辞書
         if key_states[pg.K_UP]:
-            self.rct.sentery -=1 
+            self.rct.centery -=1 
         if key_states[pg.K_DOWN]:
             self.rct.centery += 1
         if key_states[pg.K_LEFT]: 
@@ -51,6 +54,10 @@ class Bird:
                 self.rct.centerx -= 1
         self.blit(scr)
 #screen_sfc.blit(kkimg_sfc, kkimg_rct)
+
+    def attack(self):
+        return Shot(self)
+
 
 #Bombクラスの作成
 class Bomb:
@@ -77,37 +84,70 @@ class Bomb:
         scr.sfc.blit(self.sfc,self.rct)
         self.blit(scr)
     
+#こうかとんからでるビームクラス
+class Shot:
+    def __init__(self, chr: Bird):
+        self.sfc = pg.image.load("ex05/fig/beam.png")
+        self.sfc= pg.transform.rotozoom(self.sfc,0,0.5)
+        self.rct = self.sfc.get_rect()                      # Rect
+        self.rct.midleft = chr.rct.center
+
+    def blit(self,scr: Screen):
+        scr.sfc.blit(self.sfc,self.rct)
+
+    def update(self,scr: Screen):
+        self.rct.move_ip(+1,0)
+        if check_bound(self.rct,scr.rct) != (1,1):
+            del self
+        self.blit(scr)
+
+
+#敵を呼び出すクラス
+class Anamy:
+    def __init__(self,size,image,vxy,scr: Screen):
+
+        self.sfc = pg.image.load(image)                   
+        self.sfc = pg.transform.rotozoom(self.sfc, 0,size)
+        self.rct = self.sfc.get_rect()                   
+        self.rct=self.sfc.get_rect() # Rect
+        self.rct.centerx = random.randint(0, scr.rct.width)
+        self.rct.centery = random.randint(0, scr.rct.height)
+        self.vx, self.vy = vxy # 練習6
+
+    def blit(self,scr: Screen):
+        scr.sfc.blit(self.sfc,self.rct)
+    
+    def update(self,scr: Screen):
+        self.rct.move_ip(self.vx, self.vy)
+        yoko, tate = check_bound(self.rct, scr.rct)
+        self.vx *= yoko
+        self.vy *= tate
+        #scr.sfc.blit(self.sfc,self.rct)
+        self.blit(scr)
+
+#   音楽
+def ongaku():
+    pg.mixer.init()
+    pg.mixer.music.load("ex05/fig/魔王魂 旧ゲーム音楽 戦闘曲メドレー01.mp3")
+    pg.mixer.music.play(-1)#無限ループさせる
+        
 def main():
+
+
+
     clock = pg.time.Clock()
 
-    # 練習1：スクリーンと背景画像
-    #pg.display.set_caption("逃げろ！こうかとん")
-    #screen_sfc = pg.display.set_mode((1600, 900)) # Surface
-    #screen_rct = screen_sfc.get_rect()            # Rect
-    #bgimg_sfc = pg.image.load("ex05/fig/pg_bg.png")    # Surface
-    #bgimg_rct = bgimg_sfc.get_rect()              # Rect
-    #screen_sfc.blit(bgimg_sfc, bgimg_rct)
-    scr=Screen("逃げろ！こうかとん",(1600,900),"ex05/fig/pg_bg.png")#タイトルと大きさと読み込むファイルを設定
-
-    # 練習3：こうかとん
-    #kkimg_sfc = pg.image.load("ex05/fig/9.png")    # Surface
-    #kkimg_sfc = pg.transform.rotozoom(kkimg_sfc, 0, 2.0)  # Surface
-    #kkimg_rct = kkimg_sfc.get_rect()          # Rect
-    #kkimg_rct.center = 900, 400
+    scr=Screen("負けるな！こうかとん",(1600,900),"ex05/fig/pg_bg.png")#タイトルと大きさと読み込むファイルを設定
     kkt = Bird("ex05/fig/9.png",2.0,(900,400))#birdクラスのインスタンスを生成
-
-
-    # 練習5：爆弾
-    #bmimg_sfc = pg.Surface((20, 20)) # Surface
-    #bmimg_sfc.set_colorkey((0, 0, 0)) 
-    #pg.draw.circle(bmimg_sfc, (255, 0, 0), (10, 10), 10)
-    #bmimg_rct = bmimg_sfc.get_rect() # Rect
-    #bmimg_rct.centerx = random.randint(0, screen_rct.width)
-    #bmimg_rct.centery = random.randint(0, screen_rct.height)
-    #vx, vy = +1, +1 # 練習6
     bkd = Bomb((255,0,0),10,(+1,+1),scr)
+    ane = Anamy(0.5,"ex05/fig/スライム.png",(5,5),scr)
+    
+    beams = []
+    bombs = []
 
+    ongaku()#音楽関数
     while True:
+        #ongaku()
         #screen_sfc.blit(bgimg_sfc, bgimg_rct)
         scr.blit()
 
@@ -115,31 +155,25 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: return
 
-        # 練習4
-        #key_states = pg.key.get_pressed() # 辞書
-        #if key_states[pg.K_UP]    == True: kkimg_rct.centery -= 1
-        #if key_states[pg.K_DOWN]  == True: kkimg_rct.centery += 1
-        #if key_states[pg.K_LEFT]  == True: kkimg_rct.centerx -= 1
-        #if key_states[pg.K_RIGHT] == True: kkimg_rct.centerx += 1
-        # 練習7
-        #if check_bound(kkimg_rct, screen_rct) != (1, 1): # 領域外だったら
-            #if key_states[pg.K_UP]    == True: kkimg_rct.centery += 1
-            #if key_states[pg.K_DOWN]  == True: kkimg_rct.centery -= 1
-            #if key_states[pg.K_LEFT]  == True: kkimg_rct.centerx += 1
-            #if key_states[pg.K_RIGHT] == True: kkimg_rct.centerx -= 1
-        #screen_sfc.blit(kkimg_sfc, kkimg_rct)
+            if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                beams.append(kkt.attack())
+
         kkt.update(scr)
+        ane.update(scr)
+
+        for bkd in bombs:
+            bkd.updete(scr)
+            if kkt.rct.colliderect(bkd.rct):
+                return
 
 
-        # 練習6
-       # bmimg_rct.move_ip(vx, vy)
-        # 練習5
-        #screen_sfc.blit(bmimg_sfc, bmimg_rct)
-        # 練習7
-        #yoko, tate = check_bound(bmimg_rct, screen_rct)
-        #vx *= yoko
-        #vy *= tate
+
         bkd.update(scr)
+        if len(beams) !=0:
+            beams.update(scr)
+            for b,bkb in enumerate(bombs):
+                if bombs[b].rct.collidererct(beams.rct):
+                    del bombs[b]
 
         # 練習8
         #if kkimg_rct.colliderect(bmimg_rct): return 
