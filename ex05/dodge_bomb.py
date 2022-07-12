@@ -32,7 +32,7 @@ class Bird:
         #screen_sfc.blit(kkimg_sfc, kkimg_rct)
         scr.sfc.blit(self.sfc,self.rct)
 
-    def update(self, scr: Screen):
+    def update(self, scr: Screen):#こうかとんの移動の処理
         key_states = pg.key.get_pressed() # 辞書
         if key_states[pg.K_UP]:
             self.rct.centery -=1 
@@ -117,7 +117,7 @@ class Anamy:
     def blit(self,scr: Screen):
         scr.sfc.blit(self.sfc,self.rct)
     
-    def update(self,scr: Screen):
+    def update(self,scr: Screen):#移動を制御
         self.rct.move_ip(self.vx, self.vy)
         yoko, tate = check_bound(self.rct, scr.rct)
         self.vx *= yoko
@@ -125,10 +125,10 @@ class Anamy:
         #scr.sfc.blit(self.sfc,self.rct)
         self.blit(scr)
 
-#   音楽
+#   音楽を流す関数
 def ongaku():
     pg.mixer.init()
-    pg.mixer.music.load("ex05/fig/魔王魂 旧ゲーム音楽 戦闘曲メドレー01.mp3")
+    pg.mixer.music.load("ex05/fig/魔王魂 旧ゲーム音楽 戦闘曲メドレー01.mp3")#音楽を読み込む
     pg.mixer.music.play(-1)#無限ループさせる
         
 def main():
@@ -139,8 +139,8 @@ def main():
 
     scr=Screen("負けるな！こうかとん",(1600,900),"ex05/fig/pg_bg.png")#タイトルと大きさと読み込むファイルを設定
     kkt = Bird("ex05/fig/9.png",2.0,(900,400))#birdクラスのインスタンスを生成
-    bkd = Bomb((255,0,0),10,(+1,+1),scr)
-    ane = Anamy(0.5,"ex05/fig/スライム.png",(5,5),scr)
+    bkd = Bomb((255,0,0),10,(+1,+1),scr)#爆弾を生成
+    ane = Anamy(0.5,"ex05/fig/スライム.png",(5,5),scr)#敵を生成
     
     beams = []
     bombs = []
@@ -161,6 +161,7 @@ def main():
         kkt.update(scr)
         ane.update(scr)
 
+#こうかとんからでるビームの処理
         for bkd in bombs:
             bkd.updete(scr)
             if kkt.rct.colliderect(bkd.rct):
