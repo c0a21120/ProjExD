@@ -40,7 +40,7 @@ class Bird:
 # 練習7
         if check_bound(self.rct, scr.rct) != (1, 1): # 領域外
             if key_states[pg.K_UP]:
-                self.rct.sentery +=1 
+                self.rct.centery +=1 
             if key_states[pg.K_DOWN]:
                 self.rct.centery -= 1
             if key_states[pg.K_LEFT]: 
@@ -94,7 +94,7 @@ class teki:#上から降ってくる敵クラス
 #   音楽を流す関数
 def ongaku():
     pg.mixer.init()
-    pg.mixer.music.load("ex06/fig/famipop3.mp3")#音楽を読み込む  famipop3.mp3  魔王魂 旧ゲーム音楽 戦闘曲
+    pg.mixer.music.load("ex06/fig/魔王魂 旧ゲーム音楽 戦闘曲メドレー01.mp3")#音楽を読み込む  famipop3.mp3  魔王魂 旧ゲーム音楽 戦闘曲
     pg.mixer.music.play(-1)#無限ループさせる
         
 
@@ -150,6 +150,7 @@ def main():
                 beams.append(kkt.attack())
 
         kkt.update(scr)
+
         ane.update(scr)
         ane1.update(scr)
         ane2.update(scr)
